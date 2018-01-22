@@ -38,7 +38,7 @@ public class DataConfig {
 
         return factory;
     }
-    @Bean
+   /* @Bean
     public DataSource dataSource() {
         BasicDataSource ds = new BasicDataSource();
         URI dbUri = null;//Cuidado con este null...
@@ -54,6 +54,16 @@ public class DataConfig {
         ds.setUrl(dbUrl);
         ds.setUsername(username);
         ds.setPassword(password);
+        return ds;
+    }*/
+
+    @Bean
+    public DataSource dataSource() {
+        BasicDataSource ds=new BasicDataSource();
+        ds.setDriverClassName(env.getProperty("inventario.ds.driver"));
+        ds.setUrl(env.getProperty("inventario.ds.url"));
+        ds.setUsername(env.getProperty("inventario.ds.username"));
+        ds.setPassword(env.getProperty("inventario.ds.password"));
         return ds;
     }
 
