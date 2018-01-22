@@ -25,7 +25,7 @@ public class DataConfig {
     @Autowired
     private Environment env;
 
-    /*@Bean
+    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 
@@ -38,7 +38,6 @@ public class DataConfig {
 
         return factory;
     }
-*/
     @Bean
     public DataSource dataSource() {
         BasicDataSource ds = new BasicDataSource();
