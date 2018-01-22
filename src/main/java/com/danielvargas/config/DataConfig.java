@@ -6,10 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -29,15 +26,6 @@ public class DataConfig {
     private Environment env;
 
     @Bean
-    public LocalSessionFactoryBean sessionFactoryBean() {
-        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-        sessionFactoryBean.setHibernateProperties(getHibernateProperties());
-        sessionFactoryBean.setPackagesToScan(env.getProperty("inventario.entity.package"));
-        sessionFactoryBean.setDataSource(dataSource());
-        return sessionFactoryBean;
-    }
-
-    /*@Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 
@@ -50,7 +38,7 @@ public class DataConfig {
 
         return factory;
     }
-*/
+
     @Bean
     public DataSource dataSource() {
         BasicDataSource ds = new BasicDataSource();
@@ -69,6 +57,7 @@ public class DataConfig {
         ds.setPassword(password);
         return ds;
     }
+
 
     private Properties getHibernateProperties() {
         Properties properties = new Properties();
