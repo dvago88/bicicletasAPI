@@ -28,8 +28,10 @@ public class DataController {
 
     @RequestMapping(path = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Page<DataEntity> getAllData(Pageable pageable) {
-        return (Page<DataEntity>) pageableRepository.findAll(pageable);
+        return pageableRepository.findAll(pageable);
     }
+
+
 
     @RequestMapping(path = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<DataEntity> crearData(@RequestBody DataEntity dataEntity) {

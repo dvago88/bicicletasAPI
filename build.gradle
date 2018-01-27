@@ -31,6 +31,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.hibernate:hibernate-entitymanager:5.1.0.Final' //Para utilizar CrudRepository
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.3'
+    compile 'org.springframework.boot:spring-boot-starter-security'
 //    runtime('com.h2database:h2')
     compile 'org.postgresql:postgresql:42.1.4'
 

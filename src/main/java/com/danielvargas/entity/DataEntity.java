@@ -10,8 +10,8 @@ public class DataEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String codigo;
-    private int sensor1;
+    private String rfid;
+    private int stationNumber;
     private int sensor2;
     private int sensor3;
     private int sensor4;
@@ -21,9 +21,9 @@ public class DataEntity {
     public DataEntity() {
     }
 
-    public DataEntity(String codigo, int sensor1, int sensor2, int sensor3, int sensor4, LocalDateTime localDateTime) {
-        this.codigo = codigo;
-        this.sensor1 = sensor1;
+    public DataEntity(String rfid, int sensor1, int sensor2, int sensor3, int sensor4, LocalDateTime localDateTime) {
+        this.rfid = rfid;
+        this.stationNumber = sensor1;
         this.sensor2 = sensor2;
         this.sensor3 = sensor3;
         this.sensor4 = sensor4;
@@ -38,20 +38,20 @@ public class DataEntity {
         this.id = id;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getRfid() {
+        return rfid;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setRfid(String rfid) {
+        this.rfid = rfid;
     }
 
-    public int getSensor1() {
-        return sensor1;
+    public int getStationNumber() {
+        return stationNumber;
     }
 
-    public void setSensor1(int sensor1) {
-        this.sensor1 = sensor1;
+    public void setStationNumber(int stationNumber) {
+        this.stationNumber = stationNumber;
     }
 
     public int getSensor2() {
