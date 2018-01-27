@@ -27,10 +27,16 @@ public class StationController {
     @RequestMapping(value = "/stations/{id}", method = RequestMethod.POST)
     public ResponseEntity<Station> updateStatus(@PathVariable int id) {
         Station station = stationRepository.findById(id);
+        if (station == null) {
+            station = new Station(id, false, 0);
+            stationRepository.save(station);
+            return new ResponseEntity<>(station, HttpStatus.CREATED);
+        }
         station.setAvailable(!station.isAvailable());
         if (station.isAvailable()) {
             station.setNumberOfUses(station.getNumberOfUses() + 1);
         }
+        stationRepository.save(station);
         return new ResponseEntity<>(station, HttpStatus.ACCEPTED);
     }
 
