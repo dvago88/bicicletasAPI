@@ -10,10 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +29,6 @@ public class DataController {
     }
 
 
-
     @RequestMapping(path = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<DataEntity> crearData(@RequestBody DataEntity dataEntity) {
         if (dataEntity.getLocalDateTime() == null) {
@@ -41,5 +37,12 @@ public class DataController {
         dataRepository.save(dataEntity);
 
         return new ResponseEntity<>(dataEntity, HttpStatus.CREATED);
+    }
+
+    @RequestMapping("/{station}")
+    public ResponseEntity<DataEntity> getOneData(@PathVariable int station) {
+        DataEntity dataEntity = dataRepository.findByStationNumberOrderByLocalDateTimeDesc(station).get(0);
+//        TODO: Hacer algo si no se encuentran datos
+        return new ResponseEntity<>(dataEntity, HttpStatus.OK);
     }
 }

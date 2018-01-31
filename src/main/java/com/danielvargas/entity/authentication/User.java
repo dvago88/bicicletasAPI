@@ -1,5 +1,6 @@
 package com.danielvargas.entity.authentication;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,28 +12,37 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity(name = "usuario") //Postgres pone problema si se llama 'User'
-public class User implements UserDetails {
+public class User implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(unique = true)
     @Size(min = 3, max = 20)
     private String username;
 
+    @JsonIgnore
     @Column(length = 150)
     private String password;
+
+    private String nombres;
+
+    private String apellidos;
+
+    //    En caso tal de tener que asociar un rfid con la persona
+    @JsonIgnore
+    private String codigo;
 
     @Column(nullable = false)
     private boolean enabled;
 
-    //Un usuario tiene 1 rol
     @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
 
     public User() {
+
     }
 
     @Override
@@ -40,14 +50,6 @@ public class User implements UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role.getName()));
         return authorities;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override
@@ -79,4 +81,37 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
 }
