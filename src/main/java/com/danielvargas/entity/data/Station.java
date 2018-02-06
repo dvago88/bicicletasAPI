@@ -1,4 +1,4 @@
-package com.danielvargas.entity;
+package com.danielvargas.entity.data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

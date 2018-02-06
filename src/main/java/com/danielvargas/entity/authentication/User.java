@@ -24,11 +24,16 @@ public class User implements UserDetails{
 
     @JsonIgnore
     @Column(length = 150)
+//    TODO: generarlo automaticamente
     private String password;
-
-    private String nombres;
-
+    private String primerNombre;
+    private String segundoNombre;
     private String apellidos;
+    private long telefono;
+    private long celular;
+    private String email;
+    private String direccion;
+
 
     //    En caso tal de tener que asociar un rfid con la persona
     @JsonIgnore
@@ -90,12 +95,20 @@ public class User implements UserDetails{
         this.id = id;
     }
 
-    public String getNombres() {
-        return nombres;
+    public String getPrimerNombre() {
+        return primerNombre;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void setPrimerNombre(String primerNombre) {
+        this.primerNombre = primerNombre;
+    }
+
+    public String getSegundoNombre() {
+        return segundoNombre;
+    }
+
+    public void setSegundoNombre(String segundoNombre) {
+        this.segundoNombre = segundoNombre;
     }
 
     public String getApellidos() {
@@ -114,4 +127,47 @@ public class User implements UserDetails{
         this.codigo = codigo;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public long getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(long telefono) {
+        this.telefono = telefono;
+    }
+
+    public long getCelular() {
+        return celular;
+    }
+
+    public void setCelular(long celular) {
+        this.celular = celular;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
 }
