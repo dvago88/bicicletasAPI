@@ -1,6 +1,6 @@
 package com.danielvargas.repository;
 
-import com.danielvargas.entity.DataEntity;
+import com.danielvargas.entity.data.DataEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

@@ -1,6 +1,6 @@
 package com.danielvargas.repository;
 
-import com.danielvargas.entity.Station;
+import com.danielvargas.entity.data.Station;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
