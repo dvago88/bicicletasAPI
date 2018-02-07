@@ -1,8 +1,8 @@
 package com.danielvargas.controller;
 
 import com.danielvargas.entity.data.DataEntity;
-import com.danielvargas.repository.DataRepository;
-import com.danielvargas.repository.PageableRepository;
+import com.danielvargas.repository.data.DataRepository;
+import com.danielvargas.repository.data.PageableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

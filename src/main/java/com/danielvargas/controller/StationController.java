@@ -1,7 +1,7 @@
 package com.danielvargas.controller;
 
 import com.danielvargas.entity.data.Station;
-import com.danielvargas.repository.StationRepository;
+import com.danielvargas.repository.data.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,19 +29,19 @@ public class StationController {
         if (station == null) {
             station = new Station(id, false, 0);
             stationRepository.save(station);
-            return new ResponseEntity<>(station, HttpStatus.CREATED);
+            return new ResponseEntity<>(station, HttpStatus.CREATED);//201
         }
         station.setAvailable(!station.isAvailable());
         if (station.isAvailable()) {
             station.setNumberOfUses(station.getNumberOfUses() + 1);
         }
         stationRepository.save(station);
-        return new ResponseEntity<>(station, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(station, HttpStatus.ACCEPTED);//202
     }
 
     @RequestMapping("/stations/{id}")
     public ResponseEntity<Station> getOneStation(@PathVariable int id) {
         Station station = stationRepository.findById(id);
-        return new ResponseEntity<>(station, HttpStatus.OK);
+        return new ResponseEntity<>(station, HttpStatus.OK);//200
     }
 }

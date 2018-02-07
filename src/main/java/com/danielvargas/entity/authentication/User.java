@@ -1,5 +1,7 @@
 package com.danielvargas.entity.authentication;
 
+import com.danielvargas.entity.Organizacion;
+import com.danielvargas.entity.historial.Historial;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity(name = "usuario") //Postgres pone problema si se llama 'User'
-public class User implements UserDetails{
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,9 +36,13 @@ public class User implements UserDetails{
     private String email;
     private String direccion;
 
+    @OneToOne
+    @JoinColumn(name = "organizacion_id")
+    private Organizacion organizacion;
 
     //    En caso tal de tener que asociar un rfid con la persona
     @JsonIgnore
+    @Column(unique = true)
     private String codigo;
 
     @Column(nullable = false)
@@ -49,6 +55,7 @@ public class User implements UserDetails{
     public User() {
 
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -169,5 +176,13 @@ public class User implements UserDetails{
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public Organizacion getOrganizacion() {
+        return organizacion;
+    }
+
+    public void setOrganizacion(Organizacion organizacion) {
+        this.organizacion = organizacion;
     }
 }
