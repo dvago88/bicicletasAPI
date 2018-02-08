@@ -1,7 +1,11 @@
 package com.danielvargas.entity.data;
 
+import com.danielvargas.entity.historial.Historial;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class Station {
@@ -10,6 +14,9 @@ public class Station {
     private Integer id;
     private boolean available;
     private int numberOfUses;
+
+   /* @OneToMany(mappedBy = "station")
+    private List<Historial> historial;*/
 
     public Station() {
     }
@@ -43,4 +50,5 @@ public class Station {
     public void setNumberOfUses(int numberOfUses) {
         this.numberOfUses = numberOfUses;
     }
+
 }

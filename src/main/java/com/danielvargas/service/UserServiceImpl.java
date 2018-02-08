@@ -1,7 +1,7 @@
 package com.danielvargas.service;
 
 import com.danielvargas.entity.authentication.User;
-import com.danielvargas.repository.UserRepository;
+import com.danielvargas.repository.authentication.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
