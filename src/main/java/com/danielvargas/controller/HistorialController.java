@@ -28,6 +28,7 @@ public class HistorialController {
     @Autowired
     private StationRepository stationRepository;
 
+    @CrossOrigin
     @RequestMapping(path = "/historial/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Historial>> getUserHistorial(@PathVariable long userId) {
         User user = userRepository.findById(userId);
@@ -36,7 +37,6 @@ public class HistorialController {
     }
 
     //    TODO: Encontrar una mejor manera de obtener el código de usuario
-//    Me imagino que haciendo un get al usuario des
     @RequestMapping(
             path = "/historial/{stationNumber}/{userCode}",
             method = RequestMethod.POST,
