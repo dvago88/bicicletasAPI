@@ -1,4 +1,4 @@
-package com.danielvargas.entity;
+package com.danielvargas.entity.historial;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 

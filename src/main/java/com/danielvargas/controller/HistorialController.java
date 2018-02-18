@@ -1,6 +1,6 @@
 package com.danielvargas.controller;
 
-import com.danielvargas.entity.Tiempo;
+import com.danielvargas.entity.historial.Tiempo;
 import com.danielvargas.entity.authentication.User;
 import com.danielvargas.entity.data.Station;
 import com.danielvargas.entity.historial.Historial;
@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -36,7 +35,7 @@ public class HistorialController {
         return new ResponseEntity<>(historial, HttpStatus.OK);//200
     }
 
-    //    TODO: Encontrar una mejor manera de obtener el código de usuario
+    //    TODO: Encontrar una mejor manera de obtener el código de usuario (en vez de pathvariable)
     @RequestMapping(
             path = "/historial/{stationNumber}/{userCode}",
             method = RequestMethod.POST,
@@ -57,4 +56,6 @@ public class HistorialController {
         return new ResponseEntity<>(historial, HttpStatus.CREATED);//201
 
     }
+
+//    TODO: post para actualizar historial (poner la fecha de salida)
 }
