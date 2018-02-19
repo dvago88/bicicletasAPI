@@ -15,8 +15,6 @@ public class StationController {
     @Autowired
     private StationRepository stationRepository;
 
-//    TODO: poner el origin espcifico cuando la pagina esté montada
-    @CrossOrigin
     @RequestMapping("/stations")
     public List<Station> getAllStations() {
         return stationRepository.findAll();
