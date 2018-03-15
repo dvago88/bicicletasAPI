@@ -15,4 +15,13 @@ INSERT INTO station(id, available, numberOfUses) VALUES (2,true,0);
 INSERT INTO station(id, available, numberOfUses) VALUES (3,true,0);
 INSERT INTO station(id, available, numberOfUses) VALUES (4,true,0);
 INSERT INTO station(id, available, numberOfUses) VALUES (5,true,0);
--- INSERT INTO historial(id,user_id,station_id,fechaSalida,fechaIngreso) VALUES
+INSERT INTO historial(id,user_id,station_id) VALUES (1, 1, 1);
+INSERT INTO historial(id,user_id,station_id) VALUES (2, 1, 2);
+INSERT INTO historial(id,user_id,station_id) VALUES (3, 1, 2);
+INSERT INTO historial(id,user_id,station_id) VALUES (4, 1, 1);
+INSERT INTO historial(id,user_id,station_id) VALUES (5, 1, 1);
+INSERT INTO historial(id,user_id,station_id) VALUES (6, 2, 1);
+INSERT INTO historial(id,user_id,station_id) VALUES (7, 2, 2);
+INSERT INTO historial(id,user_id,station_id) VALUES (8, 2, 2);
+INSERT INTO historial(id,user_id,station_id) VALUES (9, 2, 3);
+INSERT INTO historial(id,user_id,station_id) VALUES (10, 2, 5);

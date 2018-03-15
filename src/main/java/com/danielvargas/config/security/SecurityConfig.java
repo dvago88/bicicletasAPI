@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -40,11 +40,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+        /*auth.authenticationProvider(domainUsernamePasswordAuthenticationProvider()).
+                authenticationProvider(backendAdminUsernamePasswordAuthenticationProvider()).
+                authenticationProvider(tokenAuthenticationProvider());*/
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
+    }
+
+    @Bean
+    public TokenAuthenticationFilter jwtAuthenticationTokenFilter() throws Exception {
+        return new TokenAuthenticationFilter();
     }
 
 
@@ -59,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowCredentials(true);
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization","Authentication", "Cache-Control", "Content-Type"));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -67,23 +75,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+//        TokenAuthenticationFilter tokenFilter = new TokenAuthenticationFilter();
+//        CustomBasicAuthenticationFilter customBasicAuthFilter = new CustomBasicAuthenticationFilter(this.authenticationManager());
         http
-                .authorizeRequests().antMatchers("/stations").permitAll()
+                .addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)
+                .authorizeRequests().antMatchers(HttpMethod.GET, "/stations").permitAll()
                 .anyRequest().hasRole("USER")
+                .anyRequest().authenticated()
+//                .anyRequest().hasAuthority("USER") //este??
+               /* .and()
+                    .exceptionHandling()
+                    .authenticationEntryPoint(restAuthenticationEntryPoint)*/
                 .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                    .formLogin()
+                    .loginProcessingUrl("/perform_login")
+//                .permitAll()
+                    .successHandler(restAuthenticationSuccessHandler)
+                    .failureHandler(restAuthenticationFailureHandler)
                 .and()
-                .formLogin()
-                .loginProcessingUrl("/perform_login")
-                .permitAll()
-                .successHandler(restAuthenticationSuccessHandler)
-                .failureHandler(restAuthenticationFailureHandler)
+                    .cors()
                 .and()
-                .cors()
-                .and()
-                .csrf().ignoringAntMatchers("/**");//por ahora
+                    .csrf().disable();
+//                .csrf().ignoringAntMatchers("/**");//por ahora
 //                .csrf().csrfTokenRepository(csrfTokenRepository());
+
+        //Implementing Token based authentication in this filter
+//        http.addFilterBefore(tokenFilter, BasicAuthenticationFilter.class);
+
+        //Creating token when basic authentication is successful and the same token can be used to authenticate for further requests
+//        http.addFilter(customBasicAuthFilter);
+
 //        create an SQL DDL update script
     }
 //AuthenticationSuccessHandler:
@@ -94,5 +116,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    csrf:
 //    es de otra pregunta pero la respuesta muestra csrf: https://stackoverflow.com/questions/32498868/custom-login-form-configure-spring-security-to-get-a-json-response
+
+//    https://github.com/aditzel/spring-security-csrf-filter/blob/master/src/main/java/com/allanditzel/springframework/security/web/csrf/CsrfTokenResponseHeaderBindingFilter.java
 
 }

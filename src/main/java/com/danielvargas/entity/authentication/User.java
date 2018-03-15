@@ -35,6 +35,9 @@ public class User implements UserDetails {
     private long celular;
     private String email;
     private String direccion;
+    
+    @Column(name = "access_token")
+    private String accessToken;
 
     @OneToOne
     @JoinColumn(name = "organizacion_id")
@@ -184,5 +187,13 @@ public class User implements UserDetails {
 
     public void setOrganizacion(Organizacion organizacion) {
         this.organizacion = organizacion;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }
