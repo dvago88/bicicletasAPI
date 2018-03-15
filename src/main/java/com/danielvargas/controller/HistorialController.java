@@ -44,7 +44,7 @@ public class HistorialController {
     public ResponseEntity<Historial> createNewEntryForUser(@PathVariable String userCode, @PathVariable int stationNumber, @RequestBody Tiempo fechaIngreso) {
         Station station = stationRepository.findById(stationNumber);
         if (station == null) {
-            System.out.println("No se ha creado la malparida estacion antes");
+            System.out.println("No se ha creado la berraca estación antes");
         }
         User user = userRepository.findByCodigo(userCode);
         if (user == null) {
