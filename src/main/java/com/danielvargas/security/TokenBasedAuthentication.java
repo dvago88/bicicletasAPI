@@ -1,4 +1,4 @@
-package com.danielvargas.config.security;
+package com.danielvargas.security;
 
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;

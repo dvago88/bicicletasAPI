@@ -1,5 +1,9 @@
-package com.danielvargas.config.security;
+package com.danielvargas.config;
 
+import com.danielvargas.security.RestAuthenticationEntryPoint;
+import com.danielvargas.security.RestAuthenticationFailureHandler;
+import com.danielvargas.security.RestAuthenticationSuccessHandler;
+import com.danielvargas.security.TokenAuthenticationFilter;
 import com.danielvargas.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -75,15 +79,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-//        TokenAuthenticationFilter tokenFilter = new TokenAuthenticationFilter();
-//        CustomBasicAuthenticationFilter customBasicAuthFilter = new CustomBasicAuthenticationFilter(this.authenticationManager());
         http
                 .addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests().antMatchers(HttpMethod.GET, "/stations").permitAll()
                 .anyRequest().hasRole("USER")
                 .anyRequest().authenticated()
-//                .anyRequest().hasAuthority("USER") //este??
                /* .and()
                     .exceptionHandling()
                     .authenticationEntryPoint(restAuthenticationEntryPoint)*/
@@ -99,12 +99,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .csrf().disable();
 //                .csrf().ignoringAntMatchers("/**");//por ahora
 //                .csrf().csrfTokenRepository(csrfTokenRepository());
-
-        //Implementing Token based authentication in this filter
-//        http.addFilterBefore(tokenFilter, BasicAuthenticationFilter.class);
-
-        //Creating token when basic authentication is successful and the same token can be used to authenticate for further requests
-//        http.addFilter(customBasicAuthFilter);
 
 //        create an SQL DDL update script
     }

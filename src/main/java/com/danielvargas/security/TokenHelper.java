@@ -1,4 +1,4 @@
-package com.danielvargas.config.security;
+package com.danielvargas.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

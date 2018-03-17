@@ -1,4 +1,4 @@
-package com.danielvargas.config.security;
+package com.danielvargas.security;
 
 import com.danielvargas.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private String getToken(HttpServletRequest request) {
         String authHeader = request.getHeader(AUTH_HEADER);
-        System.out.println("AUTH_HEADER");
-        System.out.println(authHeader);
         System.out.println("Authentication header:");
         System.out.println(request.getHeader("Authentication"));
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -42,10 +40,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String authToken = getToken(request);
         if (authToken != null) {
             //obtenemos el usuario del token
-            String username = tokenHelper.getUsernameFromToken(authToken);
-            if (username != null) {
+            String usernameFromToken = tokenHelper.getUsernameFromToken(authToken);
+            String usernameRequesting = request.getHeader("Authorization");
+            System.out.println("Authorization header:");
+            System.out.println(usernameRequesting);
+//          Debe ser el mismo usuario del token o no puede ingresar
+            if (usernameFromToken != null && usernameFromToken.equals(usernameRequesting)) {
                 //Obetenemos el usuaio
-                UserDetails userDetails = userService.loadUserByUsername(username);
+                UserDetails userDetails = userService.loadUserByUsername(usernameFromToken);
                 //Creamos la autenticación
                 TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
                 authentication.setToken(authToken);

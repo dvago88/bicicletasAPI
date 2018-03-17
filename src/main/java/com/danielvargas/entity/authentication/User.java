@@ -35,6 +35,7 @@ public class User implements UserDetails {
     private long celular;
     private String email;
     private String direccion;
+    private String sexo;
     
     @Column(name = "access_token")
     private String accessToken;
@@ -195,5 +196,13 @@ public class User implements UserDetails {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 }

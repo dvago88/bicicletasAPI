@@ -1,4 +1,4 @@
-package com.danielvargas.config.security;
+package com.danielvargas.security;
 
 import java.io.IOException;
 
