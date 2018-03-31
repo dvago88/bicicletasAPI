@@ -44,9 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-        /*auth.authenticationProvider(domainUsernamePasswordAuthenticationProvider()).
-                authenticationProvider(backendAdminUsernamePasswordAuthenticationProvider()).
-                authenticationProvider(tokenAuthenticationProvider());*/
     }
 
     @Bean
@@ -71,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowCredentials(true);
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
-        configuration.setAllowedHeaders(Arrays.asList("Authorization","Authentication", "Cache-Control", "Content-Type"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Authentication", "Cache-Control", "Content-Type"));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -80,37 +77,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)
-                .authorizeRequests().antMatchers(HttpMethod.GET, "/stations").permitAll()
-                .anyRequest().hasRole("USER")
-                .anyRequest().authenticated()
-               /* .and()
+                    .addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)
+                    .authorizeRequests()
+                    .antMatchers(HttpMethod.GET, "/stations").permitAll()
+                    .antMatchers(HttpMethod.GET, "/historial/**","/user/**")
+                        .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_RASPBERRY')")
+                    .antMatchers(HttpMethod.GET, "/**")
+                        .access("hasRole('ROLE_ADMIN') or hasRole('ROLE_RASPBERRY')")
+                    .antMatchers("/**")
+                        .access("hasRole('ROLE_RASPBERRY')")
+//                    .antMatchers(HttpMethod.GET, "/historial/**", "/user/**").hasRole("USER")
+//                    .antMatchers(HttpMethod.GET, "/**", "/historial/**", "/user/**").hasRole("ADMIN")
+//                    .antMatchers("/**").hasRole("RASPBERRY")
+                    .anyRequest().authenticated()
+                .and()
                     .exceptionHandling()
-                    .authenticationEntryPoint(restAuthenticationEntryPoint)*/
+                    .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
                     .formLogin()
                     .loginProcessingUrl("/perform_login")
-//                .permitAll()
+                    .permitAll()
                     .successHandler(restAuthenticationSuccessHandler)
                     .failureHandler(restAuthenticationFailureHandler)
                 .and()
                     .cors()
                 .and()
                     .csrf().disable();
-//                .csrf().ignoringAntMatchers("/**");//por ahora
-//                .csrf().csrfTokenRepository(csrfTokenRepository());
 
 //        create an SQL DDL update script
     }
-//AuthenticationSuccessHandler:
-//    https://javapointers.com/tutorial/spring-custom-authenticationsuccesshandler-example-2/
-//    https://stackoverflow.com/questions/7470405/authenticationsuccesshandler-example-for-spring-security-3
-
-//    best: https://www.codesandnotes.be/2014/10/31/restful-authentication-using-spring-security-on-spring-boot-and-jquery-as-a-web-client/
-
-//    csrf:
-//    es de otra pregunta pero la respuesta muestra csrf: https://stackoverflow.com/questions/32498868/custom-login-form-configure-spring-security-to-get-a-json-response
-
-//    https://github.com/aditzel/spring-security-csrf-filter/blob/master/src/main/java/com/allanditzel/springframework/security/web/csrf/CsrfTokenResponseHeaderBindingFilter.java
-
 }

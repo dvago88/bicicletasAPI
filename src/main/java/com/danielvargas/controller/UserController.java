@@ -7,6 +7,7 @@ import com.danielvargas.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +38,12 @@ public class UserController {
     public ResponseEntity<List<Historial>> getUserByUsername(@PathVariable String username) {
         User user = userService.findByUsername(username);
         if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401
+        User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //Si el user autenticado está pidiendo info de otro user negar
+        if (authUser.getId() != user.getId()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401
+        }
+
 
         List<Historial> historial = historialRepository.findByUserOrderByFechaIngresoDesc(user);
 

@@ -55,6 +55,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             } else {
                 error = "Nombre de usuario del token no encontrado en la Base de Datos";
             }
+        } else {
+            error = "No se incluyó token de autenticación en el request";
         }
         if (!error.equals("")) {
             System.out.println(error);

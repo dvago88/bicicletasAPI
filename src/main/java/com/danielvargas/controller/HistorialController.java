@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,11 @@ public class HistorialController {
     @CrossOrigin
     @RequestMapping(path = "/historial/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Historial>> getUserHistorial(@PathVariable long userId) {
+        User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //Si el user autenticado está pidiendo info de otro user negar
+        if (authUser.getId() != userId) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401
+        }
         User user = userRepository.findById(userId);
         List<Historial> historial = historialRepository.findByUserOrderByFechaIngresoDesc(user);
         return new ResponseEntity<>(historial, HttpStatus.OK);//200
