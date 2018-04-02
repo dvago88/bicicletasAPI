@@ -21,13 +21,13 @@ public class Historial {
     @ManyToOne
     private Station station;
 
-    private LocalDateTime fechaSalida;
-    private LocalDateTime fechaIngreso;
+    private Long fechaSalida;
+    private Long fechaIngreso;
 
     public Historial() {
     }
 
-    public Historial(User user, Station station, LocalDateTime fechaIngreso) {
+    public Historial(User user, Station station, Long fechaIngreso) {
         this.user = user;
         this.station = station;
         this.fechaSalida = fechaSalida;
@@ -58,19 +58,19 @@ public class Historial {
         this.station = station;
     }
 
-    public LocalDateTime getFechaSalida() {
+    public Long getFechaSalida() {
         return fechaSalida;
     }
 
-    public void setFechaSalida(LocalDateTime fechaSalida) {
+    public void setFechaSalida(Long fechaSalida) {
         this.fechaSalida = fechaSalida;
     }
 
-    public LocalDateTime getFechaIngreso() {
+    public Long getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(LocalDateTime fechaIngreso) {
+    public void setFechaIngreso(Long fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 }
