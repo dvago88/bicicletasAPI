@@ -36,7 +36,7 @@ public class User implements UserDetails {
     private String email;
     private String direccion;
     private String sexo;
-    
+
     @Column(name = "access_token")
     private String accessToken;
 
@@ -60,6 +60,12 @@ public class User implements UserDetails {
 
     }
 
+//    TODO: Crear builde en vez de constructor para todos los entities
+    public User(long id, String codigo, Role role) {
+        this.id = id;
+        this.codigo = codigo;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

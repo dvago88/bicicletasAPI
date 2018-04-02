@@ -1,6 +1,5 @@
 package com.danielvargas.controller;
 
-import com.danielvargas.entity.historial.Tiempo;
 import com.danielvargas.entity.authentication.User;
 import com.danielvargas.entity.data.Station;
 import com.danielvargas.entity.historial.Historial;
@@ -47,7 +46,7 @@ public class HistorialController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Historial> createNewEntryForUser(@PathVariable String userCode, @PathVariable int stationNumber, @RequestBody Tiempo fechaIngreso) {
+    public ResponseEntity<Historial> createNewEntryForUser(@PathVariable String userCode, @PathVariable int stationNumber, @RequestBody Long timeStamp) {
         Station station = stationRepository.findById(stationNumber);
         if (station == null) {
             System.out.println("No se ha creado la berraca estación antes");
@@ -57,7 +56,7 @@ public class HistorialController {
             System.out.println("Usuario no existe");
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401
         }
-        Historial historial = new Historial(user, station, fechaIngreso.getLocalDateTime());
+        Historial historial = new Historial(user, station, timeStamp);
         historialRepository.save(historial);
         return new ResponseEntity<>(historial, HttpStatus.CREATED);//201
 
