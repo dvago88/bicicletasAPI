@@ -27,20 +27,16 @@ public class DataController {
         return pageableRepository.findAll(pageable);
     }
 
-
+//TODO: este metodo se puede eliminar, revisar que otros metodos se ven afectados antes de hacerlo
     @RequestMapping(path = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<DataEntity> crearData(@RequestBody DataEntity dataEntity) {
-        if (dataEntity.getLocalDateTime() == null) {
-            dataEntity.setLocalDateTime(LocalDateTime.now());
-        }
         dataRepository.save(dataEntity);
-
         return new ResponseEntity<>(dataEntity, HttpStatus.CREATED);
     }
 
     @RequestMapping("/{station}")
     public ResponseEntity<DataEntity> getOneData(@PathVariable int station) {
-        DataEntity dataEntity = dataRepository.findByStationNumberOrderByLocalDateTimeDesc(station).get(0);
+        DataEntity dataEntity = dataRepository.findByStationNumberOrderByTimeInSecondsDesc(station).get(0);
 //        TODO: Hacer algo si no se encuentran datos
         return new ResponseEntity<>(dataEntity, HttpStatus.OK);
     }

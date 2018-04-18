@@ -1,7 +1,6 @@
 package com.danielvargas.entity.data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class DataEntity {
@@ -12,22 +11,23 @@ public class DataEntity {
 
     private String rfid;
     private int stationNumber;
+    private String userId;
     private int sensor2;
     private int sensor3;
     private int sensor4;
 
-    private LocalDateTime localDateTime;
+    private Long timeInSeconds;
 
     public DataEntity() {
     }
 
-    public DataEntity(String rfid, int sensor1, int sensor2, int sensor3, int sensor4, LocalDateTime localDateTime) {
+    public DataEntity(String rfid, int sensor1, int sensor2, int sensor3, int sensor4, Long time) {
         this.rfid = rfid;
         this.stationNumber = sensor1;
         this.sensor2 = sensor2;
         this.sensor3 = sensor3;
         this.sensor4 = sensor4;
-        this.localDateTime = localDateTime;
+        this.timeInSeconds = time;
     }
 
     public Long getId() {
@@ -78,11 +78,19 @@ public class DataEntity {
         this.sensor4 = sensor4;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public Long getTimeInSeconds() {
+        return timeInSeconds;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setTimeInSeconds(Long timeInSeconds) {
+        this.timeInSeconds = timeInSeconds;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

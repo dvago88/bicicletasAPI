@@ -3,8 +3,12 @@ package com.danielvargas.entity.historial;
 import com.danielvargas.entity.authentication.User;
 import com.danielvargas.entity.data.Station;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Historial {
@@ -20,6 +24,8 @@ public class Historial {
     @JoinColumn(name = "station_id")
     @ManyToOne
     private Station station;
+
+//   TODO: agregar organización al historial también
 
     private Long fechaSalida;
     private Long fechaIngreso;

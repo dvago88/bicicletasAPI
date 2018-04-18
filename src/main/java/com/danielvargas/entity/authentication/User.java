@@ -40,7 +40,7 @@ public class User implements UserDetails {
     @Column(name = "access_token")
     private String accessToken;
 
-    @OneToOne
+    @OneToOne //Mirar si es mejor ManyToOne, pero es que no es una lista de usuarios lo que tiene la organización
     @JoinColumn(name = "organizacion_id")
     private Organizacion organizacion;
 

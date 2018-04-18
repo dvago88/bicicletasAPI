@@ -8,5 +8,5 @@ import java.util.List;
 public interface DataRepository extends CrudRepository<DataEntity, Long> {
     List<DataEntity> findByRfid(String codigo);
 
-    List<DataEntity> findByStationNumberOrderByLocalDateTimeDesc(int stationNumber);
+    List<DataEntity> findByStationNumberOrderByTimeInSecondsDesc(int stationNumber);
 }

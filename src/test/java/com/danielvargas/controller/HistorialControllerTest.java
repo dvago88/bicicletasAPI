@@ -35,6 +35,7 @@ public class HistorialControllerTest {
 
     private MockMvc mockMvc;
     private User user;
+    private Station station;
 
     @InjectMocks
     private HistorialController controller;
@@ -55,12 +56,11 @@ public class HistorialControllerTest {
                 .build();
         Role role = new Role(1, "ADMIN");
         user = new User(1, "aaaa", role);
+        station = new Station(1, true, 2);
     }
 
     @Test
     public void createNewHistorial() throws Exception {
-        Station station = new Station(1, true, 2);
-
         when(stationRepository.findById(1)).thenReturn(station);
         when(userRepository.findByCodigo("aaaa")).thenReturn(user);
 
@@ -75,5 +75,14 @@ public class HistorialControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).andDo(print())
                 .andReturn();
+    }
+
+    @Test
+    public void ifUserIsNotInTheDataBaseShouldReturn401() throws Exception {
+        when(stationRepository.findById(1)).thenReturn(station);
+
+        mockMvc.perform(post("/historial/1/aaaa").content("1522618107206").contentType(MediaType.APPLICATION_JSON)/*.contentType(MediaType.APPLICATION_JSON_UTF8)*/)
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
     }
 }

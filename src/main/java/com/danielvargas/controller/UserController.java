@@ -28,7 +28,7 @@ public class UserController {
     public ResponseEntity<Long> getUserByCode(@PathVariable String userCode) {
         User user = userService.findByCodigo(userCode);
         if (user == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401
+            return new ResponseEntity<>(-1L, HttpStatus.UNAUTHORIZED);//401
         }
         return new ResponseEntity<>(user.getId(), HttpStatus.OK);//200
     }

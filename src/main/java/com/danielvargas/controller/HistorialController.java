@@ -1,9 +1,11 @@
 package com.danielvargas.controller;
 
 import com.danielvargas.entity.authentication.User;
+import com.danielvargas.entity.data.DataEntity;
 import com.danielvargas.entity.data.Station;
 import com.danielvargas.entity.historial.Historial;
 import com.danielvargas.repository.authentication.UserRepository;
+import com.danielvargas.repository.data.DataRepository;
 import com.danielvargas.repository.data.StationRepository;
 import com.danielvargas.repository.historial.HistorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class HistorialController {
     @Autowired
     private StationRepository stationRepository;
 
+    @Autowired
+    private DataRepository dataRepository;
+
     @CrossOrigin
     @RequestMapping(path = "/historial/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Historial>> getUserHistorial(@PathVariable long userId) {
@@ -40,27 +45,37 @@ public class HistorialController {
         return new ResponseEntity<>(historial, HttpStatus.OK);//200
     }
 
-    //    TODO: Encontrar una mejor manera de obtener el código de usuario (en vez de pathvariable)
     @RequestMapping(
-            path = "/historial/{stationNumber}/{userCode}",
+            path = "/historial/",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Historial> createNewEntryForUser(@PathVariable String userCode, @PathVariable int stationNumber, @RequestBody Long timeStamp) {
-        Station station = stationRepository.findById(stationNumber);
+    public ResponseEntity<Historial> createNewEntryForUser(@RequestBody DataEntity dataEntity) {
+        Station station = stationRepository.findById(dataEntity.getStationNumber());
         if (station == null) {
-            System.out.println("No se ha creado la berraca estación antes");
+            System.out.println("Estación " + dataEntity.getStationNumber() + " no encontrada");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//400
         }
-        User user = userRepository.findByCodigo(userCode);
-        if (user == null) {
-            System.out.println("Usuario no existe");
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401
+        User user = userRepository.findByCodigo(dataEntity.getRfid());
+        Historial historial;
+
+        if (station.isAvailable()) {
+            if (user == null) {
+                System.out.println("Usuario no existe");
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);//401
+            }
+            historial = new Historial(user, station, dataEntity.getTimeInSeconds());
+        } else {
+            historial = historialRepository.findByStationAndUserOrderByFechaIngresoDesc(station, user).get(0);
+            if (historial == null) {
+                System.out.println("Aparentemente la estación y el usuario no se encuentran enlazados...");
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);//400
+            }
+            historial.setFechaSalida(dataEntity.getTimeInSeconds());
         }
-        Historial historial = new Historial(user, station, timeStamp);
         historialRepository.save(historial);
+        dataRepository.save(dataEntity);
         return new ResponseEntity<>(historial, HttpStatus.CREATED);//201
 
     }
-
-//    TODO: post para actualizar historial (poner la fecha de salida)
 }
