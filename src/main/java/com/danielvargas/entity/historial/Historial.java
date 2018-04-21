@@ -1,14 +1,11 @@
 package com.danielvargas.entity.historial;
 
+import com.danielvargas.entity.Organizacion;
+import com.danielvargas.entity.Suborganizacion;
 import com.danielvargas.entity.authentication.User;
 import com.danielvargas.entity.data.Station;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Historial {
@@ -25,19 +22,27 @@ public class Historial {
     @ManyToOne
     private Station station;
 
-//   TODO: agregar organización al historial también
+    @OneToOne
+    @JoinColumn(name = "organizacion_id")
+    private Organizacion organizacion;
+
+    @OneToOne
+    @JoinColumn(name = "suborganizacion_id")
+    private Suborganizacion suborganizacion;
 
     private Long fechaSalida;
     private Long fechaIngreso;
 
+
     public Historial() {
     }
 
-    public Historial(User user, Station station, Long fechaIngreso) {
+    public Historial(User user, Station station, Organizacion organizacion, Suborganizacion suborganizacion, Long fechaIngreso) {
         this.user = user;
         this.station = station;
-        this.fechaSalida = fechaSalida;
         this.fechaIngreso = fechaIngreso;
+        this.organizacion = organizacion;
+        this.suborganizacion = suborganizacion;
     }
 
     public Long getId() {
@@ -70,6 +75,22 @@ public class Historial {
 
     public void setFechaSalida(Long fechaSalida) {
         this.fechaSalida = fechaSalida;
+    }
+
+    public Organizacion getOrganizacion() {
+        return organizacion;
+    }
+
+    public void setOrganizacion(Organizacion organizacion) {
+        this.organizacion = organizacion;
+    }
+
+    public Suborganizacion getSuborganizacion() {
+        return suborganizacion;
+    }
+
+    public void setSuborganizacion(Suborganizacion suborganizacion) {
+        this.suborganizacion = suborganizacion;
     }
 
     public Long getFechaIngreso() {

@@ -1,23 +1,24 @@
-package com.danielvargas.repository.authentication;
+package com.danielvargas.service.authenticacion;
 
 import com.danielvargas.entity.Organizacion;
 import com.danielvargas.entity.Suborganizacion;
 import com.danielvargas.entity.authentication.User;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-
-@Repository
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserService extends UserDetailsService {
     User findByUsername(String username);
 
-    User findById(long id);
-
     User findByCodigo(String codigo);
+
+    User findById(long id);
 
     List<User> findAllBySuborganizacion(Suborganizacion suborganizacion);
 
     List<User> findAllByOrganizacion(Organizacion organizacion);
+
+    void save(User user);
+
+    void delete(User user);
 }

@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/stations")
 public class StationController {
 
     @Autowired
     private StationRepository stationRepository;
 
-    @RequestMapping("/stations")
+    @RequestMapping("/")
     public List<Station> getAllStations() {
         return stationRepository.findAll();
     }

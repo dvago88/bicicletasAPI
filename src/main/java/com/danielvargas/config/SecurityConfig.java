@@ -4,7 +4,7 @@ import com.danielvargas.security.RestAuthenticationEntryPoint;
 import com.danielvargas.security.RestAuthenticationFailureHandler;
 import com.danielvargas.security.RestAuthenticationSuccessHandler;
 import com.danielvargas.security.TokenAuthenticationFilter;
-import com.danielvargas.service.UserService;
+import com.danielvargas.service.authenticacion.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -80,15 +80,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .addFilterBefore(jwtAuthenticationTokenFilter(), BasicAuthenticationFilter.class)
                     .authorizeRequests()
                     .antMatchers(HttpMethod.GET, "/stations").permitAll()
-                    .antMatchers(HttpMethod.GET, "/historial/**","/user/**")
-                        .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_RASPBERRY')")
+                    .antMatchers(HttpMethod.GET, "/historial/**")
+                        .access("hasRole('ROLE_USER') or hasRole('ROLE_MINIADMIN') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN') or hasRole('ROLE_RASPBERRY')")
+                    .antMatchers("/user/**")
+                        .access("hasRole('ROLE_USER') or hasRole('ROLE_MINIADMIN') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN') or hasRole('ROLE_RASPBERRY')")
+                    .antMatchers("/organizacion/suborganizacion/**")
+                        .access("hasRole('ROLE_MINIADMIN') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN')")
+                    .antMatchers("/organizacion/**")
+                        .access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN')")
                     .antMatchers(HttpMethod.GET, "/**")
-                        .access("hasRole('ROLE_ADMIN') or hasRole('ROLE_RASPBERRY')")
+                        .access("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN') or hasRole('ROLE_RASPBERRY')")
+                    .antMatchers("/data/**","/stations/**","/historial/**")
+                        .access("hasRole('ROLE_SUPERADMIN') or hasRole('ROLE_RASPBERRY')")
                     .antMatchers("/**")
-                        .access("hasRole('ROLE_RASPBERRY')")
-//                    .antMatchers(HttpMethod.GET, "/historial/**", "/user/**").hasRole("USER")
-//                    .antMatchers(HttpMethod.GET, "/**", "/historial/**", "/user/**").hasRole("ADMIN")
-//                    .antMatchers("/**").hasRole("RASPBERRY")
+                        .access("hasRole('ROLE_SUPERADMIN')")
                     .anyRequest().authenticated()
                 .and()
                     .exceptionHandling()

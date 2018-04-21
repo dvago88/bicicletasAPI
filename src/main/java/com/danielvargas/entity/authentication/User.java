@@ -1,7 +1,7 @@
 package com.danielvargas.entity.authentication;
 
 import com.danielvargas.entity.Organizacion;
-import com.danielvargas.entity.historial.Historial;
+import com.danielvargas.entity.Suborganizacion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -40,9 +40,14 @@ public class User implements UserDetails {
     @Column(name = "access_token")
     private String accessToken;
 
-    @OneToOne //Mirar si es mejor ManyToOne, pero es que no es una lista de usuarios lo que tiene la organización
+    @OneToOne
     @JoinColumn(name = "organizacion_id")
     private Organizacion organizacion;
+
+    @OneToOne
+    @JoinColumn(name = "suborganizacion_id")
+    private Suborganizacion suborganizacion;
+
 
     //    En caso tal de tener que asociar un rfid con la persona
     @JsonIgnore
@@ -60,7 +65,7 @@ public class User implements UserDetails {
 
     }
 
-//    TODO: Crear builde en vez de constructor para todos los entities
+    //    TODO: Crear builde en vez de constructor para todos los entities
     public User(long id, String codigo, Role role) {
         this.id = id;
         this.codigo = codigo;
@@ -194,6 +199,14 @@ public class User implements UserDetails {
 
     public void setOrganizacion(Organizacion organizacion) {
         this.organizacion = organizacion;
+    }
+
+    public Suborganizacion getSuborganizacion() {
+        return suborganizacion;
+    }
+
+    public void setSuborganizacion(Suborganizacion suborganizacion) {
+        this.suborganizacion = suborganizacion;
     }
 
     public String getAccessToken() {

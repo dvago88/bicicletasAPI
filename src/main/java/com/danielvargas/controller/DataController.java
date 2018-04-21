@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 
 @RestController
+@RequestMapping("/data") //TODO: actualizar codigo python
 public class DataController {
 
     @Autowired
