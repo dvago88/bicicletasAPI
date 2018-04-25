@@ -16,13 +16,13 @@ public class StationController {
     @Autowired
     private StationRepository stationRepository;
 
-    @RequestMapping("/")
+    @RequestMapping(value = {"/", ""})
     public List<Station> getAllStations() {
         return stationRepository.findAll();
     }
 
     //   Aunque no se envía nada aun es mejor post que get para el futuro que sí se envíe.
-    @RequestMapping(value = "/stations/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ResponseEntity<Station> updateStatus(@PathVariable int id) {
         Station station = stationRepository.findById(id);
         if (station == null) {
@@ -38,7 +38,7 @@ public class StationController {
         return new ResponseEntity<>(station, HttpStatus.ACCEPTED);//202
     }
 
-    @RequestMapping("/stations/{id}")
+    @RequestMapping("/{id}")
     public ResponseEntity<Station> getOneStation(@PathVariable int id) {
         Station station = stationRepository.findById(id);
         return new ResponseEntity<>(station, HttpStatus.OK);//200

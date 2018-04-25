@@ -83,14 +83,14 @@ INSERT INTO station(id, available, numberOfUses) VALUES (6,true,0);
 -----------------------------------------------
 --              HISTORIAL                    --
 -----------------------------------------------
-INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (1, 1, 1519904508000, 1519915521000);
-INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (1, 2, 1520257338000, 1520274176000);
-INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (1, 2, 1520492456000, 1520512305000);
-INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (1, 1, 1520862285000, 1520888400000);
-INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (1, 1, 1521105753000, 1521107120000);
-INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (2, 1, 1519904508000, 1519915521000);
-INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (2, 2, 1520257338000, 1520274176000);
-INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (2, 2, 1520492456000, 1520512305000);
-INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (2, 3, 1520862285000, 1520888400000);
-INSERT INTO historial(user_id,station_id, fechaIngreso) VALUES (2, 5, 1522748720000);
-INSERT INTO historial(user_id,station_id, fechaIngreso) VALUES (1, 1, 1522748720000);
+INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (14, 1, 1519904508000, 1519915521000);
+INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (14, 2, 1520257338000, 1520274176000);
+INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (14, 2, 1520492456000, 1520512305000);
+INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (14, 1, 1520862285000, 1520888400000);
+INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (14, 1, 1521105753000, 1521107120000);
+INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (15, 1, 1519904508000, 1519915521000);
+INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (15, 2, 1520257338000, 1520274176000);
+INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (15, 2, 1520492456000, 1520512305000);
+INSERT INTO historial(user_id,station_id, fechaIngreso, fechaSalida) VALUES (15, 3, 1520862285000, 1520888400000);
+INSERT INTO historial(user_id,station_id, fechaIngreso) VALUES (15, 5, 1522748720000);
+INSERT INTO historial(user_id,station_id, fechaIngreso) VALUES (14, 1, 1522748720000);
