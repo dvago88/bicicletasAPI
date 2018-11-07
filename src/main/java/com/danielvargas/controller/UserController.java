@@ -13,17 +13,34 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Clase controladora que se encarga de la autenticacion de los usuarios
+ *
+ * @author Daniel Vargas
+ * @since 2018-04-01
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
+    /**
+     * Campo de usuario de servicio
+     */
     @Autowired
     private UserService userService;
 
+    /**
+     * Campo del historial
+     */
     @Autowired
     private HistorialRepository historialRepository;
 
-
+    /**
+     * Al pasarle el código del usuario este metodo lo obtiene y lo devuelve.
+     *
+     * @param userCode código del usuario.
+     * @return ResposeEntity con el usuario (si el login es correcto) y el status http correcto.
+     */
     @RequestMapping("/code/{userCode}")
     public ResponseEntity<User> getUserByCode(@PathVariable String userCode) {
         User user = userService.findByCodigo(userCode);
@@ -36,6 +53,12 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);//200
     }
 
+    /**
+     * Al pasarle el nombre de usuario obtiene el historial del mismo y lo devuelve.
+     *
+     * @param username nombre de usuario.
+     * @return ResposeEntity con el usuario (si el login es correcto) y el status http correcto.
+     */
     @RequestMapping(path = "/username/{username}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<User> getUserHistorial(@PathVariable String username) {
         User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -51,7 +74,14 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);//200
     }
 
-    //Metodo repetido en HistorialController, OJO
+    //TODO: Refactorizar este método pues está repetido en el historial también
+
+    /**
+     * Al pasarle el username del usuario este metodo lo ootiene y lo devuelve.
+     *
+     * @param username nombre de usuario.
+     * @return ResposeEntity con el usuario (si el login es correcto) y el status http correcto.
+     */
     @RequestMapping("/{username}")
     public ResponseEntity<List<Historial>> getUserByUsername(@PathVariable String username) {
         User user = userService.findByUsername(username);
@@ -63,6 +93,12 @@ public class UserController {
         return new ResponseEntity<>(historial, HttpStatus.OK);//200
     }
 
+    /**
+     * Actualiza el usuario.
+     *
+     * @param user objeto usuario a actualizar.
+     * @return ResposeEntity con el usuario actualizado(si el login es correcto) y el status http correcto.
+     */
     @RequestMapping(path = "/updateprofile",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -78,11 +114,18 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    /**
+     * Método auxiliar que determina si un usuario tiene los permisos necesarios en la aplicación.
+     *
+     * @param user     objeto con el usuario a revisar.
+     * @param authUser objeto con el usuario autenticado.
+     * @return booleano true si el usuario tiene permiso.
+     */
     private boolean dontHavePermission(User user, User authUser) {
-        boolean putaPrueba = authUser.getRole().getId() > 4;
-        boolean putaVida = authUser.getId() != user.getId();
-        boolean verdad = putaPrueba && putaVida;
+        boolean isTheCorrectRole = authUser.getRole().getId() > 4;
+        boolean isTheCorrectUser = authUser.getId() != user.getId();
+        boolean isTrue = isTheCorrectRole && isTheCorrectUser;
 //        return authUser.getRole().getId() > 4 && authUser.getId() != user.getId();
-        return verdad;
+        return isTrue;
     }
 }
